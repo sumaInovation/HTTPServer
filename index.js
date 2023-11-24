@@ -6,4 +6,4 @@ app.get('/',(req,res)=>{
     console.log(req.method);
     res.end("hello");
 })
-app.listen(8090,()=>console.log("Server is running"))
+app.listen(8090,()=>console.log("Server is running!!!"))
