@@ -2,10 +2,6 @@
 var express = require('express')
 var cors = require('cors')
 var app = express()
-<<<<<<< HEAD
-=======
-
->>>>>>> 2d5584973beb5ba95efeb1f98b8343299af616f7
 app.use(express.json())
 app.use(cors({origin:'*'}));
 
