@@ -64,7 +64,7 @@ app.post("/registration", (req, res) => {
       }
     })
     .catch((error) => console.log(error));
-  
+     
 });
 
 
