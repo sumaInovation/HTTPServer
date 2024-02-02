@@ -29,6 +29,15 @@ let newuserSchema = new Schema({
 });
 const userDeatils = mongoose.model("newuser", newuserSchema);
 
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'sumanga0000@gmail.com',
+    pass: 'cnpi ldky hhgb cpwe'
+  }
+});
+
 // mongoose
   // .connect(dbUrl)
   // .then(() => console.log("connected"))
@@ -61,7 +70,7 @@ app.post("/registration", (req, res) => {
         });
 
         userDeatils1.save();
-        res.send("Successfuly");
+        res.send(userDeatils1);
       } else {
         console.log("Already exsiting");
         res.send("Already exsiting");
@@ -71,38 +80,6 @@ app.post("/registration", (req, res) => {
 
 });
 
-
-
-app.listen(3001, function () {
-  console.log("CORS-enabled web server listening on port 3001");
-});
-//  Send Email to any user
-app.get('/sent', (req, res) => {
-
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'sumanga0000@gmail.com',
-      pass: 'cnpi ldky hhgb cpwe'
-    }
-  });
-
-  var mailOptions = {
-    from: 'sumanga0000@gmail.com',
-    to: req.body.Email,
-    subject: req.body.subject,
-    text: req.body.text
-  };
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-  res.send('sent');
-})
 //Data Login path*************************************************
 app.post('/login', (req, res) => {
   userDeatils
@@ -116,6 +93,31 @@ app.post('/login', (req, res) => {
 
     })
     .catch(error => {
-      res.send('password incorrect');
+      res.send('Invalid user name');
     })
+})
+app.listen(3001, function () {
+  console.log("CORS-enabled web server listening on port 3001");
+});
+
+
+app.post('/verify',(req,res)=>{
+
+  var mailOptions = {
+    from: 'sumanga0000@gmail.com',
+    to: req.body.Email,
+    subject: req.body.subject,
+    html:`<h1>hello world</h1>`
+  };
+
+
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+res.send('sent email.')
 })
