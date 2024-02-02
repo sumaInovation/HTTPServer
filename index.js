@@ -29,7 +29,18 @@ let newuserSchema = new Schema({
 });
 const userDeatils = mongoose.model("newuser", newuserSchema);
 
+let newuserSchema1 = new Schema({
+  Email:{
+    type:String
+  },
+  OTPNO:{
+    type:String
+  }
+});
+const userOTP = mongoose.model("userOTP", newuserSchema1);
 
+  
+//Email thread initialization
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -37,11 +48,6 @@ var transporter = nodemailer.createTransport({
     pass: 'cnpi ldky hhgb cpwe'
   }
 });
-
-// mongoose
-  // .connect(dbUrl)
-  // .then(() => console.log("connected"))
-  // .catch((error) => console.log(error));
 
 // This is my backend API
 
@@ -102,12 +108,23 @@ app.listen(3001, function () {
 
 
 app.post('/verify',(req,res)=>{
+const opt=`${Math.floor(1000+Math.random()*9000)}`
+const hashotp=bcrypt.hashSync(opt, 10);
 
+mongoose
+  .connect(dbUrl)
+  .then(() => console.log("connected"))
+  .catch((error) => console.log(error));
+  const newOTP=new userOTP({
+    Email:'sumanga0000@gmail.com',
+    OTPNO:hashotp
+    });
+    newOTP.save();
   var mailOptions = {
     from: 'sumanga0000@gmail.com',
-    to: req.body.Email,
-    subject: req.body.subject,
-    html:`<h1>hello world</h1>`
+    to: 'sumanga0000@gmail.com',
+    subject: 'OTP Verification',
+    html:`<h1>OTP : ${opt}</h1>`
   };
 
 
