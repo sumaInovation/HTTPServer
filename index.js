@@ -138,3 +138,20 @@ mongoose
   });
 res.send('sent email.')
 })
+app.post('/verified',(req,res)=>{
+  userOTP
+  .find({ Email: req.body.Email })
+  .then((result) => {
+    if(result.length>=0){
+      if (bcrypt.compareSync(req.body.otp, result[0].)) {
+
+      }
+    }
+
+  })
+  .catch(error=>{
+
+  })
+
+
+})
