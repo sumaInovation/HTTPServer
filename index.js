@@ -115,20 +115,21 @@ app.post("/registration", (req, res) => {
                 transporter.sendMail(mailOptions, function (error, info) {
                   if (error) {
                     console.log(error);
-                    res.send("Error Email sending....");
+                    res.send("Failed Email send");
                   } else {
                     console.log("Email sent: " + info.response);
-                    res.send(newUserDetails);
+                    res.send("OK");
                   }
                 });
               })
               .catch(() => {
                 console.log("Error");
-                res.send("Failed Email Send");
+                res.send("Error");
               });
           })
           .catch(() => {
-            res.send("registartion failed");
+            console.log("Error");
+            res.send("Error");
           });
         ///////////////////////////////////
       } else {
@@ -142,7 +143,7 @@ app.post("/registration", (req, res) => {
 app.listen(3001, function () {
   console.log("CORS-enabled web server listening on port 3001");
 });
-
+// Verfication Email
 app.get("/verification", (req, res) => {
   userverficationcode
     .find({ _id: req.query.emailid })
@@ -192,3 +193,9 @@ app.get("/verification", (req, res) => {
       res.send("Error occured");
     });
 });
+
+
+app.post('/test',(req,res)=>{
+console.log("INVOLKED")
+  res.send("OK")
+})
