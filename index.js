@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 var cors = require("cors");
 var nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require("uuid");
+require('dotenv').config();
 var app = express();
 app.use(express.json());
 app.use(cors({ origin: "*" }));
@@ -86,7 +87,7 @@ app.post("/registration", (req, res) => {
           .then(() => {
             // Genarate user verification code & save in MongoDB
             const uniqestring = uuidv4() + req.body.Email;
-            const currentURL = "http://localhost:3001/verification";
+            const currentURL =process.env.BACKEND_URL+ "/verification";
             const hashverfication = bcrypt.hashSync(uniqestring, 10);
             const newverficationcode = new userverficationcode({
               _id: req.body.Email,
