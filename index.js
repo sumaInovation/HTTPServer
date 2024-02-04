@@ -87,7 +87,6 @@ app.post("/registration", (req, res) => {
             // Genarate user verification code & save in MongoDB
             const uniqestring = uuidv4() + req.body.Email;
             const currentURL = "http://localhost:3001/verification";
-
             const hashverfication = bcrypt.hashSync(uniqestring, 10);
             const newverficationcode = new userverficationcode({
               _id: req.body.Email,
