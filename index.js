@@ -195,7 +195,46 @@ app.get("/verification", (req, res) => {
 });
 
 
-app.post('/test',(req,res)=>{
-console.log("INVOLKED")
-  res.send("OK")
+
+
+// User Loging
+app.post('/login',(req,res)=>{
+  mongoose
+    .connect(dbUrl)
+    .then(() => console.log("connected"))
+    .catch((error) => {console.log(error)
+    res.send('Time Out')});
+ 
+userDeatils
+    .find({ Email: req.body.Email })
+    .then(result=>{
+     if(result){
+      if (bcrypt.compareSync(req.body.Password, result[0].Password)){
+          if(result[0].Verification==true){
+            res.send('verified')
+          }else{
+            res.send('not verified')
+          }
+
+         
+       
+      }else{
+      res.send('Wrong Password')
+      }
+     }else{
+      res.send('Connot find user name')
+     }
+    
+
+    })
+    .catch(error=>{
+      res.send('Error loging')
+
+    })
+
+
+
+
+
+
 })
