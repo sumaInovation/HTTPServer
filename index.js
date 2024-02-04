@@ -1,7 +1,8 @@
 var express = require("express");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 var cors = require("cors");
-var nodemailer = require('nodemailer');
+var nodemailer = require("nodemailer");
+const { v4: uuidv4 } = require("uuid");
 var app = express();
 app.use(express.json());
 app.use(cors({ origin: "*" }));
@@ -26,35 +27,39 @@ let newuserSchema = new Schema({
   Password: {
     type: String,
   },
+  Verification: {
+    type: Boolean,
+  },
 });
 const userDeatils = mongoose.model("newuser", newuserSchema);
 
-let newuserSchema1 = new Schema({
-  Email:{
-    type:String
+// User verification code
+let verficationcode = new Schema({
+  _id: {
+    type: String,
   },
-  OTPNO:{
-    type:String
-  }
+  _verificatio: {
+    type: String,
+  },
 });
-const userOTP = mongoose.model("userOTP", newuserSchema1);
+const userverficationcode = mongoose.model("verfication", verficationcode);
 
-  
 //Email thread initialization
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-    user: 'sumanga0000@gmail.com',
-    pass: 'cnpi ldky hhgb cpwe'
-  }
+    user: "sumanga0000@gmail.com",
+    pass: "cnpi ldky hhgb cpwe",
+  },
 });
 
 // This is my backend API
 
 app.get("/", (req, res) => {
-  
-  res.end('<h1 >WELCOME TO SUMAAUTOMATIONLK</h1>');
+  res.end("<h1 >WELCOME TO SUMAAUTOMATIONLK</h1>");
 });
+
+//User registration
 app.post("/registration", (req, res) => {
   mongoose
     .connect(dbUrl)
@@ -67,91 +72,123 @@ app.post("/registration", (req, res) => {
       if (result.length === 0) {
         const myPlaintextPassword = req.body.Password;
         const hashpassword = bcrypt.hashSync(myPlaintextPassword, 10);
-        const userDeatils1 = new userDeatils({
+        const newUserDetails = new userDeatils({
           Name: req.body.Name,
           Course: req.body.Course,
           Number: req.body.Number,
           Email: req.body.Email,
           Password: hashpassword,
+          Verification: false,
         });
+        ////////////////////////////////////////////
+        newUserDetails
+          .save()
+          .then(() => {
+            // Genarate user verification code & save in MongoDB
+            const uniqestring = uuidv4() + req.body.Email;
+            const currentURL = "http://localhost:3001/verification";
 
-        userDeatils1.save();
-        res.send(userDeatils1);
+            const hashverfication = bcrypt.hashSync(uniqestring, 10);
+            const newverficationcode = new userverficationcode({
+              _id: req.body.Email,
+              _verificatio: hashverfication,
+            });
+            // Save verfication email deatils in MongoDB
+            newverficationcode
+              .save()
+              .then(() => {
+                // Send Mail
+
+                var mailOptions = {
+                  from: "sumanga0000@gmail.com",
+                  to: "sumanga0000@gmail.com",
+                  subject: "Sending Email using Node.js",
+                  html: `<p>link <a href=${
+                    currentURL +
+                    "/?emailid=" +
+                    req.body.Email +
+                    "&uniqestring=" +
+                    uniqestring
+                  }>press</a></p>`,
+                };
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                  if (error) {
+                    console.log(error);
+                    res.send("Error Email sending....");
+                  } else {
+                    console.log("Email sent: " + info.response);
+                    res.send(newUserDetails);
+                  }
+                });
+              })
+              .catch(() => {
+                console.log("Error");
+                res.send("Failed Email Send");
+              });
+          })
+          .catch(() => {
+            res.send("registartion failed");
+          });
+        ///////////////////////////////////
       } else {
         console.log("Already exsiting");
         res.send("Already exsiting");
       }
     })
     .catch((error) => console.log(error));
-
 });
 
-//Data Login path*************************************************
-app.post('/login', (req, res) => {
-  userDeatils
-    .find({ Email: req.body.Email })
-    .then((result) => {
-      if (bcrypt.compareSync(req.body.Password, result[0].Password)) {
-        res.send("password match")
-      } else {
-        res.send("password incorrect")
-      }
-
-    })
-    .catch(error => {
-      res.send('Invalid user name');
-    })
-})
 app.listen(3001, function () {
   console.log("CORS-enabled web server listening on port 3001");
 });
 
-
-app.post('/verify',(req,res)=>{
-const opt=`${Math.floor(1000+Math.random()*9000)}`
-const hashotp=bcrypt.hashSync(opt, 10);
-
-mongoose
-  .connect(dbUrl)
-  .then(() => console.log("connected"))
-  .catch((error) => console.log(error));
-  const newOTP=new userOTP({
-    Email:'sumanga0000@gmail.com',
-    OTPNO:hashotp
-    });
-    newOTP.save();
-  var mailOptions = {
-    from: 'sumanga0000@gmail.com',
-    to: 'sumanga0000@gmail.com',
-    subject: 'OTP Verification',
-    html:`<h1>OTP : ${opt}</h1>`
-  };
-
-
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-res.send('sent email.')
-})
-app.post('/verified',(req,res)=>{
-  userOTP
-  .find({ Email: req.body.Email })
-  .then((result) => {
-    if(result.length>=0){
-      if (bcrypt.compareSync(req.body.otp, result[0].)) {
-
+app.get("/verification", (req, res) => {
+  userverficationcode
+    .find({ _id: req.query.emailid })
+    .then((result) => {
+      if (result.length > 0) {
+        // should compare verification code
+        if (bcrypt.compareSync(req.query.uniqestring, result[0]._verificatio)) {
+          userverficationcode
+            .deleteOne({ _id: req.query.emailid })
+            .then(() => {
+              // update user email verfication as true
+              userDeatils
+                .find({ Email: req.query.emailid })
+                .then((result) => {
+                  if (result.length > 0) {
+                    userDeatils
+                      .updateOne(
+                        { Email: req.query.emailid },
+                        { Verification: true }
+                      )
+                      .then(() => {
+                        res.send(`Hello ${req.query.emailid}`);
+                      })
+                      .catch(() => {
+                        res.send("connot find acoount please try again");
+                      });
+                  } else {
+                    res.send("connot find acoount please try again");
+                  }
+                })
+                .catch(() => {
+                  res.send("connot find acoount please try again");
+                });
+            })
+            .catch((error) => {
+              console.log("delete error");
+              res.send("Error Occured");
+            });
+        } else {
+          res.send("verification not match");
+        }
+      } else {
+        res.send("Invalid verfication");
       }
-    }
-
-  })
-  .catch(error=>{
-
-  })
-
-
-})
+    })
+    .catch((error) => {
+      res.send("Error occured");
+    });
+});
