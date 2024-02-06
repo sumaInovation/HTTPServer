@@ -31,6 +31,15 @@ let newuserSchema = new Schema({
   Verification: {
     type: Boolean,
   },
+  StartDate: {
+    type: String
+  },
+  EndDate: {
+    type: String
+  },
+  Due: {
+    type: String
+  }
 });
 const userDeatils = mongoose.model("newuser", newuserSchema);
 
@@ -41,7 +50,8 @@ let verficationcode = new Schema({
   },
   _verificatio: {
     type: String,
-  },
+  }
+
 });
 const userverficationcode = mongoose.model("verfication", verficationcode);
 
@@ -70,6 +80,8 @@ app.post("/registration", (req, res) => {
   userDeatils
     .find({ Email: req.body.Email })
     .then((result) => {
+      const today = new Date();
+
       if (result.length === 0) {
         const myPlaintextPassword = req.body.Password;
         const hashpassword = bcrypt.hashSync(myPlaintextPassword, 10);
@@ -80,6 +92,10 @@ app.post("/registration", (req, res) => {
           Email: req.body.Email,
           Password: hashpassword,
           Verification: false,
+          StartDate: today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate(),
+          EndDate: today.getFullYear() + "-" + (today.getMonth() + 5) + "-" + today.getDate(),
+
+
         });
         ////////////////////////////////////////////
         newUserDetails
@@ -87,7 +103,7 @@ app.post("/registration", (req, res) => {
           .then(() => {
             // Genarate user verification code & save in MongoDB
             const uniqestring = uuidv4() + req.body.Email;
-            const currentURL ="https://http-server-r3wc.onrender.com/verification";
+            const currentURL = "https://http-server-r3wc.onrender.com/verification";
             const hashverfication = bcrypt.hashSync(uniqestring, 10);
             const newverficationcode = new userverficationcode({
               _id: req.body.Email,
@@ -103,13 +119,12 @@ app.post("/registration", (req, res) => {
                   from: "sumanga0000@gmail.com",
                   to: "sumanga0000@gmail.com",
                   subject: "Sending Email using Node.js",
-                  html: `<p>link <a href=${
-                    currentURL +
+                  html: `<p>link <a href=${currentURL +
                     "/?emailid=" +
                     req.body.Email +
                     "&uniqestring=" +
                     uniqestring
-                  }>press</a></p>`,
+                    }>press</a></p>`,
                 };
 
                 transporter.sendMail(mailOptions, function (error, info) {
@@ -198,43 +213,31 @@ app.get("/verification", (req, res) => {
 
 
 // User Loging
-app.post('/login',(req,res)=>{
+app.post('/login', (req, res) => {
   mongoose
     .connect(dbUrl)
     .then(() => console.log("connected"))
-    .catch((error) => {console.log(error)
-    res.send('Time Out')});
- 
-userDeatils
+    .catch((error) => {
+      console.log(error)
+      res.send({"Status":"Time Out"})
+    });
+
+  userDeatils
     .find({ Email: req.body.Email })
-    .then(result=>{
-     if(result){
-      if (bcrypt.compareSync(req.body.Password, result[0].Password)){
-          if(result[0].Verification==true){
-            res.send('verified')
-          }else{
-            res.send('not verified')
-          }
-
-         
-       
-      }else{
-      res.send('Wrong Password')
+    .then(result => {
+      if (result) {
+        if (bcrypt.compareSync(req.body.Password, result[0].Password)) {
+          res.send(result[0])
+        } else {
+          res.send({ "status": "Wrong Password"})
+        }
+      } else {
+        res.send({ "status": "Connot find user name" })
       }
-     }else{
-      res.send('Connot find user name')
-     }
-    
+
 
     })
-    .catch(error=>{
-      res.send('Error loging')
-
-    })
-
-
-
-
-
-
+    .catch(error => {
+      res.send({ "status": "Error" })
+     })
 })
