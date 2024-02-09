@@ -271,20 +271,21 @@ app.get('/googlesheet',async(req,res)=>{
       const getRows = await googleSheets.spreadsheets.values.get({
         auth,
         spreadsheetId,
-        range:"sheet1!A:C"
+        range:"sheet1!A:F"
       });
-      // Write data into google sheet
-      // Write row(s) to spreadsheet
-  await googleSheets.spreadsheets.values.append({
-    auth,
-    spreadsheetId,
-    range: "Sheet1!A:B",// start colum A and end colum B
-    valueInputOption: "USER_ENTERED",
-    resource: {
-      values: [["NextUser","Hello User"]],// Data in colum A then B act
-    },
-  });
-    res.send(getRows.data);
+      
+  //     // Write row(s) to spreadsheet
+  // await googleSheets.spreadsheets.values.append({
+  //   auth,
+  //   spreadsheetId,
+  //   range: "Sheet1!A:B",// start colum A and end colum B
+  //   valueInputOption: "USER_ENTERED",
+  //   resource: {
+  //     values: [["NextUser","Hello User"]],// Data in colum A then B act
+  //   },
+  // });
+
+    res.send(getRows.data.values);
 })
 
 
