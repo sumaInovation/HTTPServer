@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "sumaautomationlk",
+  "private_key_id": "bf27b786640033251ba752d64f073179bf279677",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCF0dZs54F16RLp\nPrasO0ewCqpYj9Fe+pg7ZVLQJylqSmc6MjO5lzUjF0AypAonNxtxR+jGXL4CBV1B\n7g0ckPCDTW5Wq9w101TQwsq81ce+6r+wvNRZV5UhbWvSqYNvDcvznH3uct5zMBtD\nTPGGkm2ZZCOY8tpIAplq8w9H5O9E7pA6d+HjdHszwuhszcyhwiRwq6gKlC9w6Hf2\nFxnoZk1oiB/ghRQcQ12BoBJTIMtvrNs4XZXlYphry9Ib8XzDFUzY8cWzapoas5+f\njqBNqFlg674kR0iFoRUfsWBeQ06dtWwXbvtmV/31FkA7/ClxrsD7Be2gwK6q2wfj\nMcMOvPcRAgMBAAECggEALbDCVkfLN5+fcd0UUQUiinRxyjA8rAHDBZCocGLWrLB/\nw2qNp6H9piATrta8krwplgmX7FaRF66OM2sctfK09Bf1gwlF9GjWLjs8LrKNc13C\nmo02sdSKGjI6nOB8/GeJCgIWK1q0Ij88J8P3OVv4qOV8lAXjSq/8gvw/bOw5V97g\nISCNhXaxK0pNdUJCoSdYKVXjGD5b6sZ2Ml3davWGD44injsZJ3HtcDteHrhp9q6F\ndTWHnFuWb3TwnNL60DEhFOqA7A0nqwCjvDPqRXuy7Hnupx1+/G/lGoO/3je3gNbr\nYAieDi0iK75qVHSJrgBJUChXopCJV963bR3t87hXuwKBgQC6r8Z+RECaAe9s9xKa\nuhbRN44l5dGjS/JsbVRbrFA81BIhYzYAtndzv14F0FwUVDaWTVeqV6XLi8MF+wWN\n3VBBSAYYvytpcszuTW0zUk3ubB2wA0M0CUD7QyCFOAFvskSia+U2oezobRdU+Pd5\nnF1yRLCZ8CsL46cceu7cneFK6wKBgQC3gSe2KloW9D9eqFSUellg3Sq0tCaiKnuK\nKoqJvGYLq8fAjraXZgNSNxR1upBPQpVM1/9iR42Tctu/07PQy6Dvg2cQZRn7mTDW\nF7aZgn1V4u4/W3JsVrnP0y+uYIvKoRJvVflkriQu0nBIZS/ld1tHsa/IwDRkXAPw\nq/29uN4O8wKBgERDWfV5x5WI95+EiM0DFqzR/6xj6NApSS/UmnAbBgv4D9kdifWg\nwvUUGLFPixvz3zH+ffvPqNRQ+rMJIvLI5ju4tmH+JUWdsMnCjheiFNUFu6VMzBoO\n+C/oT8/mtr+9E9PAWEQt2Y7ztQBhOTzCrHjIHTts0pC6YbTMTuNk56iZAoGAfDyS\n+EAAMl42sQ1iBgw3it7x1NnK9iuw7EAU/19v7yLj4Dg+4o2MXhMwZOxkW2UG07nB\nC3bKITO4F01rBkd2s/HQy0bHqpFygOAZHiE8XfN/vaFZ/INS1aNzOqneutcGNh6M\n9F753EFZB4qKPN7sC8P+8Pk//1pUyJKI/fO1U4UCgYAo1kbp/uNXHidVh/QLA9Vb\ndapDGGZwmAohA/jr2VbkXXkfuXs4avi2DwdhFouEXJ06BG8LgeOt64+pTYRTVCqm\nd8MUFWbokY3pa/BpxkO4nRKxu1iZT8S/9VjsbAXSe+ukVRpPfM2ZW8AER87hJ0BB\n062GY04sAjnup37TzwVGTg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "sumaautomationlk@sumaautomationlk.iam.gserviceaccount.com",
+  "client_id": "104142548607830563373",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sumaautomationlk%40sumaautomationlk.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
