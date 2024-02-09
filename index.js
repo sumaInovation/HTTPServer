@@ -1,4 +1,5 @@
 var express = require("express");
+const {google}=require('googleapis');
 const bcrypt = require("bcrypt");
 var cors = require("cors");
 var nodemailer = require("nodemailer");
@@ -240,4 +241,50 @@ app.post('/login', (req, res) => {
     .catch(error => {
       res.send({ "status": "Error" })
      })
+})
+
+// Google API 
+app.get('/test',(req,res)=>{
+  res.send('HELLO')
+})
+app.get('/googlesheet',async(req,res)=>{
+
+
+  const auth = new google.auth.GoogleAuth({
+      keyFile: "credintial.json",
+      scopes: "https://www.googleapis.com/auth/spreadsheets",
+    });
+  
+    // Create client instance for auth
+    const client = await auth.getClient();
+  
+    // Instance of Google Sheets API
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+  
+    const spreadsheetId = "1FqDYvM882mvhibdWgA1Xe6vcClrrHC5Z3pODAR5gKN4";
+  
+    // Get metadata about spreadsheet
+    const metaData = await googleSheets.spreadsheets.get({
+      auth,
+      spreadsheetId,
+    });
+  
+    // Read rows from spreadsheet
+    const getRows = await googleSheets.spreadsheets.values.get({
+      auth,
+      spreadsheetId,
+      range:"sheet1!A:C"
+    });
+    // Write data into google sheet
+    // Write row(s) to spreadsheet
+await googleSheets.spreadsheets.values.append({
+  auth,
+  spreadsheetId,
+  range: "Sheet1!A:B",// start colum A and end colum B
+  valueInputOption: "USER_ENTERED",
+  resource: {
+    values: [["hello","test"]],// Data in colum A then B act
+  },
+});
+  res.send(getRows.data);
 })
