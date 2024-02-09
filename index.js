@@ -271,7 +271,7 @@ app.get('/googlesheet',async(req,res)=>{
       const getRows = await googleSheets.spreadsheets.values.get({
         auth,
         spreadsheetId,
-        range:"sheet1!A:F"
+        range:"sheet1!A:A"
       });
       
   //     // Write row(s) to spreadsheet
@@ -284,8 +284,13 @@ app.get('/googlesheet',async(req,res)=>{
   //     values: [["NextUser","Hello User"]],// Data in colum A then B act
   //   },
   // });
-
-    res.send(getRows.data.values);
+   for(key in getRows.data.values){
+    if(getRows.data.values[key]==11){
+      console.log('Found Result')
+    }
+    
+   }
+    res.send('hello');
 })
 
 
