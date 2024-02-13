@@ -120,12 +120,12 @@ app.post("/registration", (req, res) => {
                   from: "sumanga0000@gmail.com",
                   to: req.body.Email,
                   subject: "Verifcation Link",
-                  html: `<p>Welcome to sumaautomation.lk please click  <a href=${currentURL +
+                  html: `<p>Hi! ${req.body.Name} please click  <a href=${currentURL +
                     "/?emailid=" +
                     req.body.Email +
                     "&uniqestring=" +
                     uniqestring
-                    }>here to varify your account</a></p>`,
+                    }>here</a>to varify your account</p>`,
                 };
 
                 transporter.sendMail(mailOptions, function (error, info) {
