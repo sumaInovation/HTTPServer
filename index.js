@@ -119,7 +119,7 @@ app.post("/registration", (req, res) => {
                 var mailOptions = {
                   from: "sumanga0000@gmail.com",
                   to: req.body.Email,
-                  subject: "Verifcation Link",
+                  subject: "One-Time Verifcation Link",
                   html: `<p>Hi! ${req.body.Name} please click  <a href=${currentURL +
                     "/?emailid=" +
                     req.body.Email +
