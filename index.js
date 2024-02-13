@@ -60,8 +60,8 @@ const userverficationcode = mongoose.model("verfication", verficationcode);
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "sumanga0000@gmail.com",
-    pass: "cnpi ldky hhgb cpwe",
+    user: "sumaautomationlk@gmail.com",
+    pass: "xxrs pizv xpcx hntq ",
   },
 });
 
