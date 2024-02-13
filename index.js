@@ -118,14 +118,14 @@ app.post("/registration", (req, res) => {
 
                 var mailOptions = {
                   from: "sumanga0000@gmail.com",
-                  to: "sumanga0000@gmail.com",
-                  subject: "Sending Email using Node.js",
-                  html: `<p>link <a href=${currentURL +
+                  to: req.body.Email,
+                  subject: "Verifcation Link",
+                  html: `<p>Welcome to sumaautomation.lk please click  <a href=${currentURL +
                     "/?emailid=" +
                     req.body.Email +
                     "&uniqestring=" +
                     uniqestring
-                    }>press</a></p>`,
+                    }>here to varify your account</a></p>`,
                 };
 
                 transporter.sendMail(mailOptions, function (error, info) {
