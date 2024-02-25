@@ -226,7 +226,7 @@ app.post('/login', (req, res) => {
   userDeatils
     .find({ Email: req.body.Email })
     .then(result => {
-      if (result) {
+      if (result.length>0) {
         if (bcrypt.compareSync(req.body.Password, result[0].Password)) {
           res.send(result[0])
         } else {
