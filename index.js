@@ -213,7 +213,7 @@ app.get("/verification", (req, res) => {
 
 
 
-// User Loging
+// User Loging  when user use User Name and Email Address
 app.post('/login', (req, res) => {
   mongoose
     .connect(dbUrl)
@@ -241,6 +241,35 @@ app.post('/login', (req, res) => {
     .catch(error => {
       res.send({ "status": "Error" })
      })
+})
+app.post('/googlesign',(req,res)=>{
+  mongoose
+    .connect(dbUrl)
+    .then(() => console.log("connected"))
+    .catch((error) => {
+      console.log(error)
+      res.send({"Status":"Time Out"})
+    });
+
+    userDeatils
+    .find({ Email: req.body.Email })
+    .then(result => {
+      if (result) {
+        res.send("OK")
+
+      }else{
+        res.send("WRONG")
+
+
+      }
+    
+
+
+    }).catch(err=>{
+      res.send("WRONG")
+
+    })
+
 })
 
 // Google API 
