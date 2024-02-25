@@ -258,7 +258,8 @@ app.post('/googlesign',(req,res)=>{
         res.send("OK")
 
       }else{
-        res.send("WRONG")
+        res.send("WRONG");
+        alert("Invalid User")
 
 
       }
