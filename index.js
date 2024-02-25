@@ -271,6 +271,36 @@ app.post('/googlesign',(req,res)=>{
     })
 
 })
+//Fetch Data Post Reques
+app.post("/fetchdata",(req,res)=>{
+  mongoose
+  .connect(dbUrl)
+  .then(() => console.log("connected"))
+  .catch((error) => {
+    console.log(error)
+    res.send({"Status":"Time Out"})
+  });
+  userDeatils
+  .find({ Email: req.body.Email })
+  .then(result => {
+    if (result) {
+      res.send(result[0])
+
+    }else{
+      res.send("WRONG")
+
+
+    }
+  
+
+
+  }).catch(err=>{
+    res.send("WRONG")
+
+  })
+
+
+})
 
 // Google API 
 
