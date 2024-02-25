@@ -252,7 +252,7 @@ app.post('/googlesign',(req,res)=>{
     });
 
     userDeatils
-    .find({ Email: req.body.Email })
+    .find({ Email: req.body.email })
     .then(result => {
       if (result) {
         res.send("OK")
