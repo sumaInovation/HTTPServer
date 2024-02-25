@@ -254,7 +254,7 @@ app.post('/googlesign',(req,res)=>{
     userDeatils
     .find({ Email: req.body.email })
     .then(result => {
-      if (result) {
+      if (result.length>0) {
         res.send("OK")
 
       }else{
@@ -283,7 +283,7 @@ app.post("/fetchdata",(req,res)=>{
   userDeatils
   .find({ Email: req.body.Email })
   .then(result => {
-    if (result) {
+    if (result.length>0) {
       res.send(result[0])
 
     }else{
